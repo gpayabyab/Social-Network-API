@@ -1,0 +1,1 @@
+// create functions for creating thougt, getting all thoughts, getting one thought, updating thought, deleting thought, adding reaction, removing reaction
