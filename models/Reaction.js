@@ -1,36 +1,34 @@
-const { Schema,  } = require('mongoose');
+const { Schema } = require('mongoose');
 
-// Schema to create Thought model
-const reactionSchema = new Schema(
-    {
-        // reactionId
+// Custom function to format the timestamp
+const formatTimestamp = (createdAt) => {
+  // Example: Format the date as 'YYYY-MM-DD HH:mm:ss'
+  return createdAt.toISOString(); // Adjust the formatting as needed
+};
 
-// Use Mongoose's ObjectId data type
-// Default value is set to a new ObjectId
-// reactionBody
-
-// String
-// Required
-// 280 character maximum
-// username
-
-// String
-// Required
-// createdAt
-
-// Date
-// Set default value to the current timestamp
-// Use a getter method to format the timestamp on query
+// Schema to create Reaction model
+const reactionSchema = new Schema({
+  reactionId: {
+    type: Schema.Types.ObjectId,
+    default: () => new Schema.Types.ObjectId()
   },
-  {
-      // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
-    // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
-    toJSON: {
-      virtuals: true,
-    },
-    id: false,
+  reactionBody: {
+    type: String,
+    required: true,
+    maxlength: 280
+  },
+  username: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: formatTimestamp // Use the custom function to format the timestamp
   }
-);
-
+}, {
+  toJSON: { virtuals: true },
+  id: false
+});
 
 module.exports = reactionSchema;

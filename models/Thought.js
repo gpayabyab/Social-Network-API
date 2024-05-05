@@ -1,5 +1,11 @@
 const { Schema, model } = require("mongoose");
 
+// Custom function to format the timestamp
+const formatTimestamp = (createdAt) => {
+  // Example: Format the date as 'YYYY-MM-DD HH:mm:ss'
+  return createdAt.toISOString(); // Adjust the formatting as needed
+};
+
 // Schema to create Thought model
 const thoughtSchema = new Schema(
   {
@@ -9,12 +15,10 @@ const thoughtSchema = new Schema(
       minlength: 1,
       maxlength: 280,
     },
-    createdArt: {
+    createdAt: {
       type: Date,
-      // Set default value to the current timestamp
       default: Date.now,
-      // Use a getter method to format the timestamp on query
-      get: (createdAt) => dateFormat(createdAt),
+      get: formatTimestamp, // Use the custom function to format the timestamp
     },
     username: {
       type: String,
@@ -23,12 +27,8 @@ const thoughtSchema = new Schema(
     reactions: [reactionSchema]
   },
   {
-    // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
-    // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
-    toJSON: {
-      virtuals: true,
-    },
-    id: false,
+    toJSON: { virtuals: true },
+    id: false
   }
 );
 
