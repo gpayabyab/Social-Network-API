@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const reactionSchema = require('./Reaction')
 
 // Custom function to format the timestamp
 const formatTimestamp = (createdAt) => {
